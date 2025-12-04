@@ -1,0 +1,39 @@
+name: Release Version
+
+on:
+  release:
+    types: [created, published]
+  workflow_dispatch:
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore solution
+        run: dotnet restore ./Bank/Bank.sln
+
+      - name: Build with release version
+        run: dotnet build ./Bank/Bank.WebApi/Bank.WebApi.csproj --configuration Release /p:Version=${{ github.ref_name }}
+
+      - name: Pack for release
+        run: dotnet pack ./Bank/Bank.WebApi/Bank.WebApi.csproj --configuration Release --no-build -o ./artifacts /p:Version=${{ github.ref_name }}
+
+      - name: Upload package artifact (release)
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artifact
+          path: artifacts/*.nupkg
+
+      - name: Attach assets to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: artifacts/*.nupkg
