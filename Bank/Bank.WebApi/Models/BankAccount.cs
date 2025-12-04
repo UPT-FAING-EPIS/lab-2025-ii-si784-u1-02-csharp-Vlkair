@@ -2,12 +2,12 @@ namespace Bank.WebApi.Models
 {
     public class BankAccount
     {
-        private readonly string m_customerName;
+        private readonly string m_customerName = string.Empty;
         private double m_balance;
         private BankAccount() { }
         public BankAccount(string customerName, double balance)
         {
-            m_customerName = customerName;
+            m_customerName = customerName ?? throw new ArgumentNullException(nameof(customerName));
             m_balance = balance;
         }
         public string CustomerName { get { return m_customerName; } }
