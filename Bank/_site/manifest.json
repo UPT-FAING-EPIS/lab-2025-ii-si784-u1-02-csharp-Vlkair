@@ -11,6 +11,62 @@
       }
     },
     {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/Bank.WebApi.Models.BankAccount.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/Bank.WebApi.Models.BankAccount.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bank.WebApi.Models.BankAccount",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/Bank.WebApi.Models.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/Bank.WebApi.Models.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bank.WebApi.Models",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/Bank.WebApi.Tests.BankAccountTests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/Bank.WebApi.Tests.BankAccountTests.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bank.WebApi.Tests.BankAccountTests",
+      "Summary": null
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "docs/Bank.WebApi.Tests.yml",
+      "output": {
+        ".html": {
+          "relative_path": "docs/Bank.WebApi.Tests.html"
+        }
+      },
+      "version": "",
+      "Uid": null,
+      "IsMRef": true,
+      "Title": "Bank.WebApi.Tests",
+      "Summary": null
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "docs/index.md",
       "output": {

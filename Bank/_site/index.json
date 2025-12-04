@@ -1,12 +1,32 @@
 {
+  "docs/Bank.WebApi.Models.BankAccount.html": {
+    "href": "docs/Bank.WebApi.Models.BankAccount.html",
+    "title": "Class BankAccount | Bank App",
+    "summary": "Class BankAccount Namespace Bank.WebApi.Models Assembly Bank.WebApi.dll public class BankAccount Inheritance object BankAccount Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Constructors BankAccount(string, double) public BankAccount(string customerName, double balance) Parameters customerName string balance double Properties Balance public double Balance { get; } Property Value double CustomerName public string CustomerName { get; } Property Value string Methods Credit(double) public void Credit(double amount) Parameters amount double Debit(double) public void Debit(double amount) Parameters amount double"
+  },
+  "docs/Bank.WebApi.Models.html": {
+    "href": "docs/Bank.WebApi.Models.html",
+    "title": "Namespace Bank.WebApi.Models | Bank App",
+    "summary": "Namespace Bank.WebApi.Models Classes BankAccount"
+  },
+  "docs/Bank.WebApi.Tests.BankAccountTests.html": {
+    "href": "docs/Bank.WebApi.Tests.BankAccountTests.html",
+    "title": "Class BankAccountTests | Bank App",
+    "summary": "Class BankAccountTests Namespace Bank.WebApi.Tests Assembly Bank.WebApi.Tests.dll [TestClass] public class BankAccountTests Inheritance object BankAccountTests Inherited Members object.Equals(object) object.Equals(object, object) object.GetHashCode() object.GetType() object.MemberwiseClone() object.ReferenceEquals(object, object) object.ToString() Methods Debit_WithValidAmount_UpdatesBalance() [TestMethod] public void Debit_WithValidAmount_UpdatesBalance()"
+  },
+  "docs/Bank.WebApi.Tests.html": {
+    "href": "docs/Bank.WebApi.Tests.html",
+    "title": "Namespace Bank.WebApi.Tests | Bank App",
+    "summary": "Namespace Bank.WebApi.Tests Classes BankAccountTests"
+  },
   "docs/index.html": {
     "href": "docs/index.html",
-    "title": "This is the HOMEPAGE.",
+    "title": "This is the HOMEPAGE. | Bank App",
     "summary": "This is the HOMEPAGE. Diagrama de Clases Pruebas"
   },
   "index.html": {
     "href": "index.html",
-    "title": "This is the HOMEPAGE.",
-    "summary": "This is the HOMEPAGE. Refer to Markdown for how to write markdown files. Quick Start Notes: Add images to the images folder if the file is referencing an image."
+    "title": "This is the HOMEPAGE. | Bank App",
+    "summary": "This is the HOMEPAGE. Diagrama de Clases Pruebas Refer to Markdown for how to write markdown files. Quick Start Notes: Add images to the images folder if the file is referencing an image."
   }
 }

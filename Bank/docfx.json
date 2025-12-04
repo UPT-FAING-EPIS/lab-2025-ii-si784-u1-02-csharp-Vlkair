@@ -4,13 +4,13 @@
     {
       "src": [
         {
-          "src": "../src",
+          "src": ".",
           "files": [
             "**/*.csproj"
           ]
         }
       ],
-      "dest": "api"
+      "dest": "docs"
     }
   ],
   "build": {
@@ -37,8 +37,8 @@
       "modern"
     ],
     "globalMetadata": {
-      "_appName": "",
-      "_appTitle": "",
+      "_appName": "Bank.App",
+      "_appTitle": "Bank App",
       "_enableSearch": true,
       "pdf": true
     }
