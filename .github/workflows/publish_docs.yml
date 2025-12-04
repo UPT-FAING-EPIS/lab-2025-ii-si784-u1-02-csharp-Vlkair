@@ -5,8 +5,19 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
+# Required for GitHub Pages (Actions) deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Ensure only one Pages deployment runs at a time
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,17 +31,24 @@ jobs:
       - name: Install DocFX (global tool)
         run: dotnet tool install -g docfx
 
+      - name: Add .NET tools to PATH
+        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
       - name: Build documentation with DocFX
         run: docfx build Bank/docfx.json
 
-      - name: Upload generated site as artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: docfx-site
           path: Bank/_site
 
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: Bank/_site
+        id: deployment
+        uses: actions/deploy-pages@v4
