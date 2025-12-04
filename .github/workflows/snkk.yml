@@ -9,6 +9,8 @@ on:
 jobs:
   snyk-report:
     runs-on: ubuntu-latest
+    env:
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,20 +32,27 @@ jobs:
         run: npm install -g snyk snyk-to-html
 
       - name: Configure Snyk token
+        if: ${{ env.SNYK_TOKEN != '' }}
         env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          SNYK_TOKEN: ${{ env.SNYK_TOKEN }}
         run: snyk config set api=$SNYK_TOKEN
 
       - name: Run Snyk test on solution and output JSON
+        id: snyk_test
+        if: ${{ env.SNYK_TOKEN != '' }}
+        continue-on-error: true
         run: snyk test --file=Bank/Bank.sln --json-file-output=Bank/Cobertura/snyk-sln.json
 
       - name: Prepare output directory
         run: mkdir -p Bank/_site/Cobertura
 
       - name: Generate Snyk HTML report
+        if: ${{ env.SNYK_TOKEN != '' }}
+        continue-on-error: true
         run: npx snyk-to-html -i Bank/Cobertura/snyk-sln.json -o Bank/_site/Cobertura/snyk-sln.html
 
       - name: Upload report artifact
+        if: ${{ env.SNYK_TOKEN != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: snyk-report
