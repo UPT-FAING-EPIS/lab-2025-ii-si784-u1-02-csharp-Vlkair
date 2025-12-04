@@ -1,0 +1,37 @@
+name: Package and Publish NuGet
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  build-pack-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Restore solution
+        run: dotnet restore ./Bank/Bank.sln
+
+      - name: Build project
+        run: dotnet build ./Bank/Bank.WebApi/Bank.WebApi.csproj --configuration Release --no-restore
+
+      - name: Pack NuGet package
+        run: dotnet pack ./Bank/Bank.WebApi/Bank.WebApi.csproj --configuration Release --no-build -o ./artifacts /p:IsPackable=true /p:PackageId=Bank.WebApi /p:PackageVersion=${{ github.run_number }}
+
+      - name: Publish to NuGet.org
+        if: ${{ secrets.NUGET_API_KEY != '' }}
+        run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-package
+          path: artifacts/*.nupkg
