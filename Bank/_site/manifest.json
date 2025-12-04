@@ -11,6 +11,26 @@
       }
     },
     {
+      "type": "Conceptual",
+      "source_relative_path": "Cobertura/SummaryGithub.md",
+      "output": {
+        ".html": {
+          "relative_path": "Cobertura/SummaryGithub.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "disenio.md",
+      "output": {
+        ".html": {
+          "relative_path": "disenio.html"
+        }
+      },
+      "version": ""
+    },
+    {
       "type": "ManagedReference",
       "source_relative_path": "docs/Bank.WebApi.Models.BankAccount.yml",
       "output": {
