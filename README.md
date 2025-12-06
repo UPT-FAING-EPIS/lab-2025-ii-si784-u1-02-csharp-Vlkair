@@ -1,5 +1,47 @@
 [![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-2972f46106e565e64193e422d61a12cf1da4916b45550586e14ef0a7c637dd04.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=21938869)
-# SESION DE LABORATORIO N° 02: PRUEBAS ESTATICAS DE SEGURIDAD DE APLICACIONES CON SNYK
+
+# INFORME DE LABORATORIO N° 02
+## PRUEBAS ESTATICAS DE SEGURIDAD DE APLICACIONES CON SNYK
+
+---
+
+### **Información del Estudiante**
+- **Nombre:** Victor Williams Cruz Mamani
+- **Repositorio:** lab-2025-ii-si784-u1-02-csharp-Vlkair
+- **Curso:** Calidad de Software (SI784)
+- **Fecha:** Diciembre 2025
+- **Institución:** UPT-FAING-EPIS
+
+---
+
+## RESUMEN EJECUTIVO
+
+Este informe documenta el desarrollo del Laboratorio N° 02, enfocado en la implementación de pruebas estáticas de seguridad de aplicaciones utilizando **Snyk**. El proyecto consiste en una aplicación web API bancaria desarrollada en **.NET 8**, que incluye:
+
+- ✅ Implementación de una Web API con modelo de cuenta bancaria
+- ✅ Pruebas unitarias con MSTest
+- ✅ Análisis de seguridad con Snyk
+- ✅ Contenedorización con Docker
+- ✅ Documentación técnica con DocFx
+- ✅ Pipeline de CI/CD con GitHub Actions
+
+### **Tecnologías Utilizadas**
+- .NET 8.0
+- C#
+- MSTest
+- Docker
+- Snyk
+- DocFx
+- GitHub Actions
+
+### **Resultados de Cobertura de Código**
+- **Cobertura de líneas:** 22.9% (11 de 48 líneas)
+- **Cobertura de ramas:** 20% (2 de 10 ramas)
+- **Ensamblados analizados:** 1
+- **Clases cubiertas:** 3
+- **Archivos analizados:** 2
+
+---
 
 ## OBJETIVOS
   * Comprender el funcionamiento de las pruebas estaticas de seguridad de còdigo de las aplicaciones que desarrollamos utilizando Snyk.
@@ -317,6 +359,219 @@ jobs:
    * Realice el analisis con SonarCloud.
    * Contruya un archivo .nuget a partir del proyecto Bank.Domain y lo publique como un Paquete de Github
 4. Generar una automatización de nombre .github/workflows/release_version.yml (Github Workflow) que contruya la version (release) del paquete y publique en Github Releases e incluya pero ahi no esta el test unitarios
+
+---
+
+## RESULTADOS Y ANÁLISIS
+
+### **1. Estructura del Proyecto**
+
+El proyecto se organizó en una solución .NET que contiene:
+
+```
+Bank/
+├── Bank.WebApi/              # API REST principal
+│   ├── Models/              # Modelos de dominio
+│   │   └── BankAccount.cs   # Clase de cuenta bancaria
+│   ├── Program.cs           # Punto de entrada de la aplicación
+│   └── appsettings.json     # Configuración
+├── Bank.WebApi.Tests/       # Proyecto de pruebas unitarias
+│   └── BankAccountTests.cs  # Pruebas de la clase BankAccount
+├── Cobertura/               # Reportes de cobertura
+│   └── SummaryGithub.md     # Resumen de cobertura
+├── docs/                    # Documentación generada con DocFx
+└── _site/                   # Sitio de documentación generado
+```
+
+### **2. Implementación de la Clase BankAccount**
+
+La clase `BankAccount` implementa las operaciones básicas de una cuenta bancaria:
+
+**Características principales:**
+- Propiedades inmutables: `CustomerName` (nombre del cliente)
+- Balance mutable: `Balance` (saldo de la cuenta)
+- Métodos:
+  - `Debit(double amount)`: Retira fondos de la cuenta
+  - `Credit(double amount)`: Deposita fondos en la cuenta
+- Validaciones:
+  - No permite débitos mayores al saldo disponible
+  - No permite montos negativos en operaciones
+
+### **3. Pruebas Unitarias Implementadas**
+
+Se implementó la prueba `Debit_WithValidAmount_UpdatesBalance` que verifica:
+- **Arrange:** Configuración de cuenta con saldo inicial de $11.99
+- **Act:** Realización de débito de $4.55
+- **Assert:** Verificación de saldo resultante de $7.44
+
+**Resultado:** ✅ Prueba ejecutada exitosamente
+
+### **4. Análisis de Seguridad con Snyk**
+
+Se realizaron dos tipos de análisis:
+
+#### **4.1 Análisis de Código Fuente (SAST)**
+```bash
+snyk code test --json | snyk-to-html -o code-test-results.html
+```
+- Analiza vulnerabilidades en el código fuente
+- Identifica problemas de seguridad estáticos
+- Genera reporte HTML con recomendaciones
+
+#### **4.2 Análisis de Contenedor**
+```bash
+snyk container test api-banco --json | snyk-to-html -o container-test-result.html
+```
+- Analiza vulnerabilidades en la imagen Docker
+- Revisa dependencias del sistema operativo base
+- Identifica CVEs en paquetes del contenedor
+
+### **5. Contenedorización con Docker**
+
+**Imagen base:** `mcr.microsoft.com/dotnet/aspnet:8.0`
+
+**Características del Dockerfile:**
+- Multi-stage build para optimización de tamaño
+- Exposición del puerto 80
+- Tamaño final de imagen: ~247MB
+- Entrypoint configurado para `Bank.WebApi.dll`
+
+**Construcción exitosa:**
+```
+REPOSITORY    TAG       IMAGE ID       CREATED         SIZE  
+api-banco     latest    949c67f75e5e   2 minutes ago   247MB
+```
+
+### **6. Documentación Técnica**
+
+Se generó documentación completa utilizando DocFx:
+- Diagramas de clases con dll2mmd
+- API documentation en formato HTML
+- Página principal con enlaces a:
+  - Diagrama de clases
+  - Reportes de pruebas
+  - Cobertura de código
+
+**Acceso:** El sitio se encuentra en `_site/index.html`
+
+### **7. Automatización con GitHub Actions**
+
+Se implementó el workflow `snyk.yml` que:
+- Se ejecuta en cada push
+- Configura entorno .NET 8
+- Ejecuta análisis de seguridad con Snyk
+- Genera archivo SARIF para GitHub Security
+- Integra resultados en Code Scanning
+
+---
+
+## CONCLUSIONES
+
+1. **Seguridad:** La implementación de análisis estático con Snyk permite identificar vulnerabilidades tempranamente en el ciclo de desarrollo.
+
+2. **Calidad del Código:** La cobertura actual del 22.9% indica que se requiere ampliar las pruebas unitarias para cubrir casos edge y flujos alternativos.
+
+3. **Automatización:** La integración con GitHub Actions permite un análisis continuo de seguridad en cada cambio de código.
+
+4. **Contenedorización:** Docker facilita el despliegue consistente de la aplicación en diferentes entornos.
+
+5. **Documentación:** DocFx proporciona una documentación técnica profesional y navegable para el proyecto.
+
+---
+
+## RECOMENDACIONES
+
+1. **Aumentar cobertura de pruebas:** Implementar pruebas adicionales para:
+   - Método `Credit()`
+   - Casos de error (débitos negativos, montos excesivos)
+   - Constructor y validaciones
+
+2. **Reforzar seguridad:** 
+   - Revisar y corregir vulnerabilidades identificadas por Snyk
+   - Actualizar imagen base de Docker a última versión
+   - Implementar análisis de dependencias
+
+3. **Mejorar CI/CD:**
+   - Agregar generación automática de reportes HTML como artefactos
+   - Implementar publicación automática de documentación
+   - Configurar releases automáticas
+
+4. **Optimización:**
+   - Reducir tamaño de imagen Docker
+   - Implementar caché de compilación
+   - Optimizar tiempo de ejecución de tests
+
+---
+
+## ACTIVIDADES COMPLETADAS
+
+- ✅ Configuración de Snyk Cloud
+- ✅ Creación de solución .NET con WebAPI
+- ✅ Implementación de modelo `BankAccount`
+- ✅ Desarrollo de pruebas unitarias con MSTest
+- ✅ Generación de reportes de cobertura
+- ✅ Creación de Dockerfile funcional
+- ✅ Análisis de seguridad con Snyk (código y contenedor)
+- ✅ Generación de documentación con DocFx
+- ✅ Configuración de GitHub Actions para análisis continuo
+- ✅ Integración con GitHub Security (SARIF)
+
+---
+
+## REFERENCIAS
+
+- [Documentación oficial de Snyk](https://docs.snyk.io/)
+- [.NET 8 Documentation](https://docs.microsoft.com/dotnet/)
+- [Docker Best Practices](https://docs.docker.com/develop/dev-best-practices/)
+- [DocFx Documentation](https://dotnet.github.io/docfx/)
+- [GitHub Actions](https://docs.github.com/actions)
+
+---
+
+## ANEXOS
+
+### Anexo A: Comandos Principales Ejecutados
+
+```bash
+# Instalación de herramientas
+scoop install snyk
+npm install snyk-to-html -g
+dotnet tool install -g docfx
+dotnet tool install -g dotnet-reportgenerator-globaltool
+
+# Creación del proyecto
+dotnet new sln -o Bank
+dotnet new webapi -o Bank.WebApi
+dotnet new mstest -o Bank.WebApi.Tests
+
+# Pruebas y cobertura
+dotnet test --collect:"XPlat Code Coverage"
+ReportGenerator "-reports:./*/*/*/coverage.cobertura.xml" "-targetdir:Cobertura" -reporttypes:MarkdownSummaryGithub
+
+# Docker
+docker build -t api-banco .
+docker images
+
+# Snyk
+snyk auth <TOKEN>
+snyk code test --json | snyk-to-html -o code-test-results.html
+snyk container test api-banco --json | snyk-to-html -o container-test-result.html
+
+# Documentación
+docfx metadata docfx.json
+docfx build
+```
+
+### Anexo B: Estructura de Archivos de Configuración
+
+- `docfx.json`: Configuración de generación de documentación
+- `Dockerfile`: Definición de contenedor multi-stage
+- `.github/workflows/snyk.yml`: Pipeline de análisis de seguridad
+
+---
+
+**Fecha de elaboración:** Diciembre 5, 2025  
+**Versión del documento:** 1.0
 
 
 
